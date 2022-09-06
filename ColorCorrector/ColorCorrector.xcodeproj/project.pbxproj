@@ -1,0 +1,658 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3205D55428623514001C816E /* ColorCorrectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205D5532862349D001C816E /* ColorCorrectorView.swift */; };
+		3205D5572862C1A6001C816E /* HSBUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205D5562862C139001C816E /* HSBUtils.swift */; };
+		3205D55B2863A964001C816E /* HueSaturation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3205D5522862301B001C816E /* HueSaturation.m */; };
+		32ECAA042819DD9100DCBD2F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA032819DD9100DCBD2F /* Cocoa.framework */; };
+		32ECAA0C2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 32ECAA0B2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		32ECAA102819DD9100DCBD2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA0F2819DD9100DCBD2F /* Foundation.framework */; };
+		32ECAA122819DD9100DCBD2F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA112819DD9100DCBD2F /* AppKit.framework */; };
+		32ECAA142819DD9100DCBD2F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA132819DD9100DCBD2F /* Accelerate.framework */; };
+		32ECAA162819DD9100DCBD2F /* PluginManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA152819DD9100DCBD2F /* PluginManager.framework */; };
+		32ECAA182819DD9100DCBD2F /* FxPlug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA172819DD9100DCBD2F /* FxPlug.framework */; };
+		32ECAA1E2819DD9100DCBD2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA1D2819DD9100DCBD2F /* AppDelegate.swift */; };
+		32ECAA212819DD9100DCBD2F /* ColorCorrectorPlugIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA202819DD9100DCBD2F /* ColorCorrectorPlugIn.swift */; };
+		32ECAA232819DD9100DCBD2F /* MetalDeviceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA222819DD9100DCBD2F /* MetalDeviceCache.swift */; };
+		32ECAA272819DD9100DCBD2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA252819DD9100DCBD2F /* InfoPlist.strings */; };
+		32ECAA2A2819DD9100DCBD2F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA282819DD9100DCBD2F /* MainMenu.xib */; };
+		32ECAA2D2819DD9100DCBD2F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA2B2819DD9100DCBD2F /* Credits.rtf */; };
+		32ECAA2F2819DD9100DCBD2F /* TileableRemoteBrightness.metal in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */; };
+		32ECAA342819DD9100DCBD2F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA332819DD9100DCBD2F /* main.swift */; };
+		32ECAA382819DD9100DCBD2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA362819DD9100DCBD2F /* InfoPlist.strings */; };
+		32ECAA3B2819DD9100DCBD2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA392819DD9100DCBD2F /* Localizable.strings */; };
+		32ECAA472819E1CF00DCBD2F /* CCPInstanceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA462819E1B100DCBD2F /* CCPInstanceList.swift */; };
+		32ECAA492819F1EA00DCBD2F /* HueSaturation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA482819F1C600DCBD2F /* HueSaturation.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		32ECAA0D2819DD9100DCBD2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32ECA9F82819DD9100DCBD2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 32ECAA0A2819DD9100DCBD2F;
+			remoteInfo = "XPC Service";
+		};
+		32ECAA192819DD9100DCBD2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32ECA9F82819DD9100DCBD2F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 32ECAA0A2819DD9100DCBD2F;
+			remoteInfo = "XPC Service";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		32ECAA422819DD9100DCBD2F /* Embed PlugIns */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				32ECAA0C2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit in Embed PlugIns */,
+			);
+			name = "Embed PlugIns";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3205D5512862301B001C816E /* HueSaturation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HueSaturation.h; sourceTree = "<group>"; };
+		3205D5522862301B001C816E /* HueSaturation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HueSaturation.m; sourceTree = "<group>"; };
+		3205D5532862349D001C816E /* ColorCorrectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCorrectorView.swift; sourceTree = "<group>"; };
+		3205D5562862C139001C816E /* HSBUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSBUtils.swift; sourceTree = "<group>"; };
+		32ECAA002819DD9100DCBD2F /* ColorCorrector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorCorrector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		32ECAA032819DD9100DCBD2F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		32ECAA0B2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ColorCorrector XPC Service.pluginkit"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32ECAA0F2819DD9100DCBD2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		32ECAA112819DD9100DCBD2F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		32ECAA132819DD9100DCBD2F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		32ECAA152819DD9100DCBD2F /* PluginManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PluginManager.framework; path = Library/Frameworks/../../../../../../Library/Developer/Frameworks/PluginManager.framework; sourceTree = DEVELOPER_DIR; };
+		32ECAA172819DD9100DCBD2F /* FxPlug.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FxPlug.framework; path = Library/Frameworks/../../../../../../Library/Developer/Frameworks/FxPlug.framework; sourceTree = DEVELOPER_DIR; };
+		32ECAA1D2819DD9100DCBD2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		32ECAA202819DD9100DCBD2F /* ColorCorrectorPlugIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCorrectorPlugIn.swift; sourceTree = "<group>"; };
+		32ECAA222819DD9100DCBD2F /* MetalDeviceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalDeviceCache.swift; sourceTree = "<group>"; };
+		32ECAA242819DD9100DCBD2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32ECAA262819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32ECAA292819DD9100DCBD2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		32ECAA2C2819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = TileableRemoteBrightness.metal; sourceTree = "<group>"; };
+		32ECAA302819DD9100DCBD2F /* SandboxEntitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SandboxEntitlements.entitlements; sourceTree = "<group>"; };
+		32ECAA312819DD9100DCBD2F /* TileableRemoteBrightnessShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileableRemoteBrightnessShaderTypes.h; sourceTree = "<group>"; };
+		32ECAA322819DD9100DCBD2F /* Wrapper Application-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Wrapper Application-Bridging-Header.h"; sourceTree = "<group>"; };
+		32ECAA332819DD9100DCBD2F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		32ECAA352819DD9100DCBD2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32ECAA372819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32ECAA3A2819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		32ECAA3C2819DD9100DCBD2F /* XPC Service-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XPC Service-Bridging-Header.h"; sourceTree = "<group>"; };
+		32ECAA462819E1B100DCBD2F /* CCPInstanceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPInstanceList.swift; sourceTree = "<group>"; };
+		32ECAA482819F1C600DCBD2F /* HueSaturation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSaturation.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		32ECA9FD2819DD9100DCBD2F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32ECAA042819DD9100DCBD2F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32ECAA062819DD9100DCBD2F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32ECAA142819DD9100DCBD2F /* Accelerate.framework in Frameworks */,
+				32ECAA162819DD9100DCBD2F /* PluginManager.framework in Frameworks */,
+				32ECAA102819DD9100DCBD2F /* Foundation.framework in Frameworks */,
+				32ECAA122819DD9100DCBD2F /* AppKit.framework in Frameworks */,
+				32ECAA182819DD9100DCBD2F /* FxPlug.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		32ECA9F72819DD9100DCBD2F = {
+			isa = PBXGroup;
+			children = (
+				32ECAA1B2819DD9100DCBD2F /* ColorCorrector */,
+				32ECAA022819DD9100DCBD2F /* Frameworks */,
+				32ECAA012819DD9100DCBD2F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		32ECAA012819DD9100DCBD2F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32ECAA002819DD9100DCBD2F /* ColorCorrector.app */,
+				32ECAA0B2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32ECAA022819DD9100DCBD2F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32ECAA032819DD9100DCBD2F /* Cocoa.framework */,
+				32ECAA0F2819DD9100DCBD2F /* Foundation.framework */,
+				32ECAA112819DD9100DCBD2F /* AppKit.framework */,
+				32ECAA132819DD9100DCBD2F /* Accelerate.framework */,
+				32ECAA152819DD9100DCBD2F /* PluginManager.framework */,
+				32ECAA172819DD9100DCBD2F /* FxPlug.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32ECAA1B2819DD9100DCBD2F /* ColorCorrector */ = {
+			isa = PBXGroup;
+			children = (
+				32ECAA1C2819DD9100DCBD2F /* Wrapper Application */,
+				32ECAA1F2819DD9100DCBD2F /* Plugin */,
+			);
+			path = ColorCorrector;
+			sourceTree = "<group>";
+		};
+		32ECAA1C2819DD9100DCBD2F /* Wrapper Application */ = {
+			isa = PBXGroup;
+			children = (
+				32ECAA1D2819DD9100DCBD2F /* AppDelegate.swift */,
+				32ECAA242819DD9100DCBD2F /* Info.plist */,
+				32ECAA252819DD9100DCBD2F /* InfoPlist.strings */,
+				32ECAA282819DD9100DCBD2F /* MainMenu.xib */,
+				32ECAA2B2819DD9100DCBD2F /* Credits.rtf */,
+				32ECAA302819DD9100DCBD2F /* SandboxEntitlements.entitlements */,
+				32ECAA322819DD9100DCBD2F /* Wrapper Application-Bridging-Header.h */,
+			);
+			path = "Wrapper Application";
+			sourceTree = "<group>";
+		};
+		32ECAA1F2819DD9100DCBD2F /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				32ECAA202819DD9100DCBD2F /* ColorCorrectorPlugIn.swift */,
+				3205D5532862349D001C816E /* ColorCorrectorView.swift */,
+				3205D5562862C139001C816E /* HSBUtils.swift */,
+				32ECAA482819F1C600DCBD2F /* HueSaturation.swift */,
+				3205D5512862301B001C816E /* HueSaturation.h */,
+				3205D5522862301B001C816E /* HueSaturation.m */,
+				32ECAA462819E1B100DCBD2F /* CCPInstanceList.swift */,
+				32ECAA222819DD9100DCBD2F /* MetalDeviceCache.swift */,
+				32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */,
+				32ECAA312819DD9100DCBD2F /* TileableRemoteBrightnessShaderTypes.h */,
+				32ECAA332819DD9100DCBD2F /* main.swift */,
+				32ECAA352819DD9100DCBD2F /* Info.plist */,
+				32ECAA362819DD9100DCBD2F /* InfoPlist.strings */,
+				32ECAA392819DD9100DCBD2F /* Localizable.strings */,
+				32ECAA3C2819DD9100DCBD2F /* XPC Service-Bridging-Header.h */,
+			);
+			path = Plugin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		32ECA9FF2819DD9100DCBD2F /* Wrapper Application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32ECAA432819DD9100DCBD2F /* Build configuration list for PBXNativeTarget "Wrapper Application" */;
+			buildPhases = (
+				32ECA9FC2819DD9100DCBD2F /* Sources */,
+				32ECA9FD2819DD9100DCBD2F /* Frameworks */,
+				32ECA9FE2819DD9100DCBD2F /* Resources */,
+				32ECAA422819DD9100DCBD2F /* Embed PlugIns */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				32ECAA0E2819DD9100DCBD2F /* PBXTargetDependency */,
+				32ECAA1A2819DD9100DCBD2F /* PBXTargetDependency */,
+			);
+			name = "Wrapper Application";
+			productName = "Wrapper Application";
+			productReference = 32ECAA002819DD9100DCBD2F /* ColorCorrector.app */;
+			productType = "com.apple.product-type.application";
+		};
+		32ECAA0A2819DD9100DCBD2F /* XPC Service */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32ECAA3F2819DD9100DCBD2F /* Build configuration list for PBXNativeTarget "XPC Service" */;
+			buildPhases = (
+				32ECAA052819DD9100DCBD2F /* Sources */,
+				32ECAA062819DD9100DCBD2F /* Frameworks */,
+				32ECAA072819DD9100DCBD2F /* Resources */,
+				32ECAA082819DD9100DCBD2F /* Copy and Code Sign FxPlug.framework */,
+				32ECAA092819DD9100DCBD2F /* Copy and Code Sign PluginManager.framework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "XPC Service";
+			productName = "XPC Service";
+			productReference = 32ECAA0B2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		32ECA9F82819DD9100DCBD2F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					32ECA9FF2819DD9100DCBD2F = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					32ECAA0A2819DD9100DCBD2F = {
+						CreatedOnToolsVersion = 13.3;
+					};
+				};
+			};
+			buildConfigurationList = 32ECA9FB2819DD9100DCBD2F /* Build configuration list for PBXProject "ColorCorrector" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 32ECA9F72819DD9100DCBD2F;
+			packageReferences = (
+			);
+			productRefGroup = 32ECAA012819DD9100DCBD2F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				32ECA9FF2819DD9100DCBD2F /* Wrapper Application */,
+				32ECAA0A2819DD9100DCBD2F /* XPC Service */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		32ECA9FE2819DD9100DCBD2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32ECAA272819DD9100DCBD2F /* InfoPlist.strings in Resources */,
+				32ECAA2D2819DD9100DCBD2F /* Credits.rtf in Resources */,
+				32ECAA2A2819DD9100DCBD2F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32ECAA072819DD9100DCBD2F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32ECAA382819DD9100DCBD2F /* InfoPlist.strings in Resources */,
+				32ECAA3B2819DD9100DCBD2F /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32ECAA082819DD9100DCBD2F /* Copy and Code Sign FxPlug.framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy and Code Sign FxPlug.framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nrsync --archive --links --whole-file --no-owner --no-group --checksum --exclude='Headers' \"/Library/Developer/Frameworks/FxPlug.framework/\" \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FxPlug.framework/\"\nif [ \"$?\" -ne 0 ]; then echo \"error: rsync failed; couldn't embed FxPlug.framework\"; exit 1; fi\ncodesign --force --timestamp --options runtime --sign \"${CODE_SIGN_IDENTITY}\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/FxPlug.framework\"";
+			showEnvVarsInLog = 0;
+		};
+		32ECAA092819DD9100DCBD2F /* Copy and Code Sign PluginManager.framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy and Code Sign PluginManager.framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nrsync --archive --links --whole-file --no-owner --no-group --checksum --exclude='Headers' \"/Library/Developer/Frameworks/PluginManager.framework/\" \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PluginManager.framework/\"\nif [ \"$?\" -ne 0 ]; then echo \"error: rsync failed; couldn't embed PluginManager.framework\"; exit 1; fi\ncodesign --force --timestamp --options runtime --sign \"${CODE_SIGN_IDENTITY}\" \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/PluginManager.framework\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		32ECA9FC2819DD9100DCBD2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32ECAA1E2819DD9100DCBD2F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32ECAA052819DD9100DCBD2F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32ECAA492819F1EA00DCBD2F /* HueSaturation.swift in Sources */,
+				32ECAA232819DD9100DCBD2F /* MetalDeviceCache.swift in Sources */,
+				32ECAA2F2819DD9100DCBD2F /* TileableRemoteBrightness.metal in Sources */,
+				3205D55B2863A964001C816E /* HueSaturation.m in Sources */,
+				3205D55428623514001C816E /* ColorCorrectorView.swift in Sources */,
+				32ECAA342819DD9100DCBD2F /* main.swift in Sources */,
+				3205D5572862C1A6001C816E /* HSBUtils.swift in Sources */,
+				32ECAA472819E1CF00DCBD2F /* CCPInstanceList.swift in Sources */,
+				32ECAA212819DD9100DCBD2F /* ColorCorrectorPlugIn.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		32ECAA0E2819DD9100DCBD2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 32ECAA0A2819DD9100DCBD2F /* XPC Service */;
+			targetProxy = 32ECAA0D2819DD9100DCBD2F /* PBXContainerItemProxy */;
+		};
+		32ECAA1A2819DD9100DCBD2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 32ECAA0A2819DD9100DCBD2F /* XPC Service */;
+			targetProxy = 32ECAA192819DD9100DCBD2F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		32ECAA252819DD9100DCBD2F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32ECAA262819DD9100DCBD2F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		32ECAA282819DD9100DCBD2F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32ECAA292819DD9100DCBD2F /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		32ECAA2B2819DD9100DCBD2F /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32ECAA2C2819DD9100DCBD2F /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		32ECAA362819DD9100DCBD2F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32ECAA372819DD9100DCBD2F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		32ECAA392819DD9100DCBD2F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32ECAA3A2819DD9100DCBD2F /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		32ECAA3D2819DD9100DCBD2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = /Library/Developer/SDKs/FxPlug.sdk;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5;
+			};
+			name = Debug;
+		};
+		32ECAA3E2819DD9100DCBD2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = /Library/Developer/SDKs/FxPlug.sdk;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5;
+			};
+			name = Release;
+		};
+		32ECAA402819DD9100DCBD2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XJPJRMM4P3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = ColorCorrector/Plugin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_execute;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "ColorCorrector $(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ColorCorrector/Plugin/XPC Service-Bridging-Header.h";
+				WRAPPER_EXTENSION = pluginkit;
+			};
+			name = Debug;
+		};
+		32ECAA412819DD9100DCBD2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XJPJRMM4P3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = ColorCorrector/Plugin/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_execute;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "ColorCorrector $(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ColorCorrector/Plugin/XPC Service-Bridging-Header.h";
+				WRAPPER_EXTENSION = pluginkit;
+			};
+			name = Release;
+		};
+		32ECAA442819DD9100DCBD2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_ENTITLEMENTS = "ColorCorrector/Wrapper Application/SandboxEntitlements.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XJPJRMM4P3;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "ColorCorrector/Wrapper Application/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ColorCorrector;
+				SWIFT_OBJC_BRIDGING_HEADER = "ColorCorrector/Wrapper Application/Wrapper Application-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		32ECAA452819DD9100DCBD2F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_ENTITLEMENTS = "ColorCorrector/Wrapper Application/SandboxEntitlements.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XJPJRMM4P3;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "ColorCorrector/Wrapper Application/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ColorCorrector;
+				SWIFT_OBJC_BRIDGING_HEADER = "ColorCorrector/Wrapper Application/Wrapper Application-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		32ECA9FB2819DD9100DCBD2F /* Build configuration list for PBXProject "ColorCorrector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32ECAA3D2819DD9100DCBD2F /* Debug */,
+				32ECAA3E2819DD9100DCBD2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		32ECAA3F2819DD9100DCBD2F /* Build configuration list for PBXNativeTarget "XPC Service" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32ECAA402819DD9100DCBD2F /* Debug */,
+				32ECAA412819DD9100DCBD2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		32ECAA432819DD9100DCBD2F /* Build configuration list for PBXNativeTarget "Wrapper Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32ECAA442819DD9100DCBD2F /* Debug */,
+				32ECAA452819DD9100DCBD2F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 32ECA9F82819DD9100DCBD2F /* Project object */;
+}

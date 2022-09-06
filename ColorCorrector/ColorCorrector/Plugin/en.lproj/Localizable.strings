@@ -1,0 +1,5 @@
+/* Localized versions of Info.plist keys */
+
+"ColorCorrector::FxPlug Description" = "A helpful description of\nwhat this plugin does.";
+"ColorCorrector::HueSaturation" = "Hue/Saturation";
+"ColorCorrector::Value" = "Value";
