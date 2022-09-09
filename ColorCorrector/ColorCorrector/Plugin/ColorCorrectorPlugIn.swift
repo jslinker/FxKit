@@ -59,15 +59,13 @@ enum ParameterID: UInt32 {
         let hueSatName = bundle.localizedString(forKey: "ColorCorrector::HueSaturation", value: nil, table: nil)
         let defaultColor = HueSaturation(hue: 30.0 * Double.pi / 180, saturation: 0.5)
         
-        // [UInt32(kFxParameterFlag_CUSTOM_UI) | UInt32(kFxParameterFlag_DONT_DISPLAY_IN_DASHBOARD)])
-        let parameterFlags = UInt32(kFxParameterFlag_CUSTOM_UI) | UInt32(kFxParameterFlag_DONT_DISPLAY_IN_DASHBOARD)
         paramAPI.addCustomParameter(withName: hueSatName, parameterID: ParameterID.HueSaturation.rawValue,
                                     defaultValue: defaultColor,
-                                    parameterFlags: parameterFlags)
+                                    parameterFlags: .CustomUI | .DontDisplayInDashboard)
         
-        paramAPI.addFloatSlider(withName: "Color Value", parameterID: ParameterID.Value.rawValue, defaultValue: 1.0, parameterMin: 0.0, parameterMax: 100.0, sliderMin: 0.0, sliderMax: 5.0, delta: 0.1, parameterFlags: FxParameterFlags(kFxParameterFlag_DEFAULT))
+        paramAPI.addFloatSlider(withName: "Color Value", parameterID: ParameterID.Value.rawValue, defaultValue: 1.0, parameterMin: 0.0, parameterMax: 100.0, sliderMin: 0.0, sliderMax: 5.0, delta: 0.1, parameterFlags: .Default)
         
-        paramAPI.addFloatSlider(withName: "Brightness", parameterID: ParameterID.NextInstance.rawValue, defaultValue: 1.0, parameterMin: 0.0, parameterMax: 100.0, sliderMin: 0.0, sliderMax: 5.0, delta: 0.1, parameterFlags: FxParameterFlags(kFxParameterFlag_DEFAULT))
+        paramAPI.addPushButton(withName: "Show Window", parameterID: ParameterID.WindowButton.rawValue, selector: #selector(showWindow), parameterFlags: .Default)
     }
     
     func pluginState(_ pluginState: AutoreleasingUnsafeMutablePointer<NSData>?, at renderTime: CMTime, quality qualityLevel: UInt) throws {
@@ -148,13 +146,31 @@ enum ParameterID: UInt32 {
         deviceCache.returnCommandQueueToCache(commandQueue: commandQueue)
     }
     
+    @objc func showWindow() {
+        guard let windowAPI = _apiManager.api(for: FxRemoteWindowAPI_v2.self) as? FxRemoteWindowAPI_v2 else {
+            print("Unable to get windowing API")
+            return
+        }
+        
+        let contentSize = ColorCorrectorView.hueSaturationWheel.size
+        windowAPI.remoteWindow(of: contentSize) { view, error in
+            guard let parentView = view else {
+                print("Error creating new remote window \(String(describing: error))")
+                return
+            }
+            let wheelView = ColorCorrectorView(frame: NSRect(x: 0, y: 0, width: 200, height: 200), apiManager: self._apiManager)
+            parentView.addSubview(wheelView)
+        }
+    }
+    
     // Who knows if this function name is correct. The @objc was essential to making this visible to the API
     @objc func createViewForParameterID(_ parameterID: UInt32) -> NSView? {
         if parameterID == ParameterID.HueSaturation.rawValue {
             // Make this sized correctly with ColorWheelSize
             self.customView = ColorCorrectorView(frame: NSRect(x: 0, y: 0, width: 200, height: 200), apiManager: self._apiManager)
+            return self.customView
         }
-        return self.customView
+        return nil
     }
     
     @objc func `class`(forCustomParameterID parameterID: UInt32) -> AnyClass {

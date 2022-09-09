@@ -17,11 +17,6 @@ fileprivate let WheelCenter: NSPoint = NSPoint(x: WheelRadius, y: WheelRadius)
 
 class ColorCorrectorView: NSView, MTKViewDelegate {
     
-//    enum ParameterID: UInt32 {
-//        case HueSaturation = 1
-//        case Value, WindowButton, NextInstance, PreviousInstance
-//    }
-    
     private let apiManager: PROAPIAccessing
     
     private let metalView: MTKView
@@ -34,11 +29,12 @@ class ColorCorrectorView: NSView, MTKViewDelegate {
         self.metalView = MTKView(frame: CGRect.zero, device: device)
         
         super.init(frame: frame)
-        self.metalView.clearColor = MTLClearColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
-        self.metalView.enableSetNeedsDisplay = true
-        self.metalView.isPaused = true
-        self.metalView.delegate = self
-        self.addSubview(self.metalView)
+        // Update this later to draw using metal rather than a static image
+//        self.metalView.clearColor = MTLClearColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+//        self.metalView.enableSetNeedsDisplay = true
+//        self.metalView.isPaused = true
+//        self.metalView.delegate = self
+//        self.addSubview(self.metalView)
     }
     
     @available(*, unavailable)

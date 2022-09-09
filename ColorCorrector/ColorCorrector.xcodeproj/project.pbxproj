@@ -10,6 +10,7 @@
 		3205D55428623514001C816E /* ColorCorrectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205D5532862349D001C816E /* ColorCorrectorView.swift */; };
 		3205D5572862C1A6001C816E /* HSBUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205D5562862C139001C816E /* HSBUtils.swift */; };
 		3205D55B2863A964001C816E /* HueSaturation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3205D5522862301B001C816E /* HueSaturation.m */; };
+		32E9CCBF28CBE5B000DE139A /* FxPlugWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E9CCBD28CBE51700DE139A /* FxPlugWrapper.swift */; };
 		32ECAA042819DD9100DCBD2F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA032819DD9100DCBD2F /* Cocoa.framework */; };
 		32ECAA0C2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 32ECAA0B2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		32ECAA102819DD9100DCBD2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32ECAA0F2819DD9100DCBD2F /* Foundation.framework */; };
@@ -67,6 +68,7 @@
 		3205D5522862301B001C816E /* HueSaturation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HueSaturation.m; sourceTree = "<group>"; };
 		3205D5532862349D001C816E /* ColorCorrectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCorrectorView.swift; sourceTree = "<group>"; };
 		3205D5562862C139001C816E /* HSBUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSBUtils.swift; sourceTree = "<group>"; };
+		32E9CCBD28CBE51700DE139A /* FxPlugWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FxPlugWrapper.swift; sourceTree = "<group>"; };
 		32ECAA002819DD9100DCBD2F /* ColorCorrector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorCorrector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32ECAA032819DD9100DCBD2F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		32ECAA0B2819DD9100DCBD2F /* ColorCorrector XPC Service.pluginkit */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ColorCorrector XPC Service.pluginkit"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				32ECAA202819DD9100DCBD2F /* ColorCorrectorPlugIn.swift */,
+				32E9CCBD28CBE51700DE139A /* FxPlugWrapper.swift */,
 				3205D5532862349D001C816E /* ColorCorrectorView.swift */,
 				3205D5562862C139001C816E /* HSBUtils.swift */,
 				32ECAA482819F1C600DCBD2F /* HueSaturation.swift */,
@@ -359,6 +362,7 @@
 				3205D55428623514001C816E /* ColorCorrectorView.swift in Sources */,
 				32ECAA342819DD9100DCBD2F /* main.swift in Sources */,
 				3205D5572862C1A6001C816E /* HSBUtils.swift in Sources */,
+				32E9CCBF28CBE5B000DE139A /* FxPlugWrapper.swift in Sources */,
 				32ECAA472819E1CF00DCBD2F /* CCPInstanceList.swift in Sources */,
 				32ECAA212819DD9100DCBD2F /* ColorCorrectorPlugIn.swift in Sources */,
 			);
