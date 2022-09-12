@@ -167,8 +167,11 @@ enum ParameterID: UInt32 {
     @objc func createViewForParameterID(_ parameterID: UInt32) -> NSView? {
         if parameterID == ParameterID.HueSaturation.rawValue {
             // Make this sized correctly with ColorWheelSize
-            self.customView = ColorCorrectorView(frame: NSRect(x: 0, y: 0, width: 200, height: 200), apiManager: self._apiManager)
-            return self.customView
+            let view = ColorCorrectorView(frame: NSRect(x: 0, y: 0, width: 200, height: 200), apiManager: self._apiManager)
+            
+            // The API expects an unmanaged, over-retained reference. Apple's sample code doesn't use ARC, which is why it works.
+            let managed = Unmanaged.passRetained(view)
+            return managed.takeUnretainedValue()
         }
         return nil
     }

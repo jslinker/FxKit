@@ -113,7 +113,7 @@ class ColorCorrectorView: NSView, MTKViewDelegate {
         let clickPoint = self.convert(event.locationInWindow, to: nil)
         let delta = NSPoint(x: clickPoint.x - WheelCenter.x, y: clickPoint.y - WheelCenter.y)
         
-        var distance = sqrt(delta.x * delta.x + delta.y * delta.y)
+        var distance = sqrt(delta.x * delta.x + delta.y * delta.y) / WheelRadius
         if distance > 1 { distance = 1 }
         
         var hueRadians = atan2(delta.y, delta.x)
