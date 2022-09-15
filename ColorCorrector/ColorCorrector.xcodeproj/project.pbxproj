@@ -28,7 +28,6 @@
 		32ECAA342819DD9100DCBD2F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA332819DD9100DCBD2F /* main.swift */; };
 		32ECAA382819DD9100DCBD2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA362819DD9100DCBD2F /* InfoPlist.strings */; };
 		32ECAA3B2819DD9100DCBD2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA392819DD9100DCBD2F /* Localizable.strings */; };
-		32ECAA472819E1CF00DCBD2F /* CCPInstanceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA462819E1B100DCBD2F /* CCPInstanceList.swift */; };
 		32ECAA492819F1EA00DCBD2F /* HueSaturation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA482819F1C600DCBD2F /* HueSaturation.swift */; };
 /* End PBXBuildFile section */
 
@@ -93,7 +92,6 @@
 		32ECAA372819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		32ECAA3A2819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		32ECAA3C2819DD9100DCBD2F /* XPC Service-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XPC Service-Bridging-Header.h"; sourceTree = "<group>"; };
-		32ECAA462819E1B100DCBD2F /* CCPInstanceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCPInstanceList.swift; sourceTree = "<group>"; };
 		32ECAA482819F1C600DCBD2F /* HueSaturation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSaturation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,7 +183,6 @@
 				32ECAA482819F1C600DCBD2F /* HueSaturation.swift */,
 				3205D5512862301B001C816E /* HueSaturation.h */,
 				3205D5522862301B001C816E /* HueSaturation.m */,
-				32ECAA462819E1B100DCBD2F /* CCPInstanceList.swift */,
 				32ECAA222819DD9100DCBD2F /* MetalDeviceCache.swift */,
 				32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */,
 				32ECAA312819DD9100DCBD2F /* TileableRemoteBrightnessShaderTypes.h */,
@@ -363,7 +360,6 @@
 				32ECAA342819DD9100DCBD2F /* main.swift in Sources */,
 				3205D5572862C1A6001C816E /* HSBUtils.swift in Sources */,
 				32E9CCBF28CBE5B000DE139A /* FxPlugWrapper.swift in Sources */,
-				32ECAA472819E1CF00DCBD2F /* CCPInstanceList.swift in Sources */,
 				32ECAA212819DD9100DCBD2F /* ColorCorrectorPlugIn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,15 +11,11 @@ enum ParameterID: UInt32 {
     case HueSaturation = 1
     case Value
     case WindowButton
-    case NextInstance
-    case PreviousInstance
 }
 
 @objc(ColorCorrectorPlugIn) class ColorCorrectorPlugIn : NSObject, FxTileableEffect {
     
     static let CCPNoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
-    
-    private static var gInstanceList: CCPInstanceList = CCPInstanceList()
     
     private let _apiManager : PROAPIAccessing!
     
@@ -30,14 +26,14 @@ enum ParameterID: UInt32 {
     }
     
     deinit {
-        ColorCorrectorPlugIn.gInstanceList.removeInstance(plugin: self)
+        
     }
     
     // MARK: FxTileableEffect Protocol
     
     // Called whenever a new instance of the plugin is added to a users document. The original sample project used the `dispatch_once` pattern to initialize `gInstanceList` here. In Swift this is unnecessary because static variables are already lazily initialized.
     func pluginInstanceAddedToDocument() {
-        ColorCorrectorPlugIn.gInstanceList.addInstance(plugin: self)
+        
     }
     
     // Describes what the plugin is capable of. This value is cached in Motion and Final Cut Pro.
