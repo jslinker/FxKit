@@ -1,1 +1,3 @@
 *.xcuserstate
+*.xcbkptlist
+/ColorCorrector/ColorCorrector.xcodeproj/xcuserdata/josephslinker.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist

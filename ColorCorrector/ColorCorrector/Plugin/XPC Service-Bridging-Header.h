@@ -3,5 +3,5 @@
 //
 
 #import <FxPlug/FxPlugSDK.h>
-#import "TileableRemoteBrightnessShaderTypes.h"
+#import "FxSimpleColorCorrectorShaderTypes.h"
 #import "HueSaturation.h"

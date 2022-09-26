@@ -24,11 +24,11 @@
 		32ECAA272819DD9100DCBD2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA252819DD9100DCBD2F /* InfoPlist.strings */; };
 		32ECAA2A2819DD9100DCBD2F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA282819DD9100DCBD2F /* MainMenu.xib */; };
 		32ECAA2D2819DD9100DCBD2F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA2B2819DD9100DCBD2F /* Credits.rtf */; };
-		32ECAA2F2819DD9100DCBD2F /* TileableRemoteBrightness.metal in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */; };
 		32ECAA342819DD9100DCBD2F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA332819DD9100DCBD2F /* main.swift */; };
 		32ECAA382819DD9100DCBD2F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA362819DD9100DCBD2F /* InfoPlist.strings */; };
 		32ECAA3B2819DD9100DCBD2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32ECAA392819DD9100DCBD2F /* Localizable.strings */; };
 		32ECAA492819F1EA00DCBD2F /* HueSaturation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32ECAA482819F1C600DCBD2F /* HueSaturation.swift */; };
+		32F9AD5B28D3E4AC00174194 /* FxSimpleColorCorrector.metal in Sources */ = {isa = PBXBuildFile; fileRef = 32F9AD5928D3E4AC00174194 /* FxSimpleColorCorrector.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,9 +83,7 @@
 		32ECAA262819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		32ECAA292819DD9100DCBD2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32ECAA2C2819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = TileableRemoteBrightness.metal; sourceTree = "<group>"; };
 		32ECAA302819DD9100DCBD2F /* SandboxEntitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SandboxEntitlements.entitlements; sourceTree = "<group>"; };
-		32ECAA312819DD9100DCBD2F /* TileableRemoteBrightnessShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileableRemoteBrightnessShaderTypes.h; sourceTree = "<group>"; };
 		32ECAA322819DD9100DCBD2F /* Wrapper Application-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Wrapper Application-Bridging-Header.h"; sourceTree = "<group>"; };
 		32ECAA332819DD9100DCBD2F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		32ECAA352819DD9100DCBD2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +91,8 @@
 		32ECAA3A2819DD9100DCBD2F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		32ECAA3C2819DD9100DCBD2F /* XPC Service-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XPC Service-Bridging-Header.h"; sourceTree = "<group>"; };
 		32ECAA482819F1C600DCBD2F /* HueSaturation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSaturation.swift; sourceTree = "<group>"; };
+		32F9AD5928D3E4AC00174194 /* FxSimpleColorCorrector.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = FxSimpleColorCorrector.metal; sourceTree = "<group>"; };
+		32F9AD5A28D3E4AC00174194 /* FxSimpleColorCorrectorShaderTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FxSimpleColorCorrectorShaderTypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,8 +184,8 @@
 				3205D5512862301B001C816E /* HueSaturation.h */,
 				3205D5522862301B001C816E /* HueSaturation.m */,
 				32ECAA222819DD9100DCBD2F /* MetalDeviceCache.swift */,
-				32ECAA2E2819DD9100DCBD2F /* TileableRemoteBrightness.metal */,
-				32ECAA312819DD9100DCBD2F /* TileableRemoteBrightnessShaderTypes.h */,
+				32F9AD5928D3E4AC00174194 /* FxSimpleColorCorrector.metal */,
+				32F9AD5A28D3E4AC00174194 /* FxSimpleColorCorrectorShaderTypes.h */,
 				32ECAA332819DD9100DCBD2F /* main.swift */,
 				32ECAA352819DD9100DCBD2F /* Info.plist */,
 				32ECAA362819DD9100DCBD2F /* InfoPlist.strings */,
@@ -354,11 +354,11 @@
 			files = (
 				32ECAA492819F1EA00DCBD2F /* HueSaturation.swift in Sources */,
 				32ECAA232819DD9100DCBD2F /* MetalDeviceCache.swift in Sources */,
-				32ECAA2F2819DD9100DCBD2F /* TileableRemoteBrightness.metal in Sources */,
 				3205D55B2863A964001C816E /* HueSaturation.m in Sources */,
 				3205D55428623514001C816E /* ColorCorrectorView.swift in Sources */,
 				32ECAA342819DD9100DCBD2F /* main.swift in Sources */,
 				3205D5572862C1A6001C816E /* HSBUtils.swift in Sources */,
+				32F9AD5B28D3E4AC00174194 /* FxSimpleColorCorrector.metal in Sources */,
 				32E9CCBF28CBE5B000DE139A /* FxPlugWrapper.swift in Sources */,
 				32ECAA212819DD9100DCBD2F /* ColorCorrectorPlugIn.swift in Sources */,
 			);

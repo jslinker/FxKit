@@ -47,6 +47,24 @@ static NSString*    kKey_Saturation = @"Saturation";
     [paramAPI setCustomParameterValue:colorData toParameter:parameterID atTime:currentTime];
 }
 
++ (instancetype)fromPluginState: (NSData*)data {
+    HueSaturation* hsv;
+    [data getBytes:&hsv length:sizeof(hsv)];
+    
+    double hue = 0.0;
+    double sat = 0.0;
+    [data getBytes:&hue length:sizeof(hue)];
+    
+    NSRange satRange = NSMakeRange(sizeof(hue), sizeof(sat));
+    [data getBytes:&sat range:satRange];
+    
+//    NSRange valueRange  = NSMakeRange(sizeof(hue) + sizeof(sat), sizeof(val));
+//    [pluginState getBytes:&val
+//                    range:valueRange];
+    
+    return [[HueSaturation alloc] initWithHue:hue saturation:sat];
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];

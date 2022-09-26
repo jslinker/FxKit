@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)fromAPI: (id<PROAPIAccessing>)apiManager forParameter: (UInt32)parameter atTime: (CMTime)currentTime;
 + (void)setFromAPI: (id<PROAPIAccessing>)apiManager withID:(UInt32)parameterID hueRadians: (double)hueRadians saturation: (double)saturation atTime: (CMTime) currentTime;
++ (instancetype)fromPluginState: (NSData*)data;
 - (instancetype)initWithHue:(double)hue saturation:(double)sat;
 
 @end

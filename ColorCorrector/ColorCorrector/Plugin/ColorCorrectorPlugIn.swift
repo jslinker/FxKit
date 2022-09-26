@@ -13,6 +13,8 @@ enum ParameterID: UInt32 {
     case WindowButton
 }
 
+let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
+
 @objc(ColorCorrectorPlugIn) class ColorCorrectorPlugIn : NSObject, FxTileableEffect {
     
     static let CCPNoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
@@ -65,12 +67,14 @@ enum ParameterID: UInt32 {
     }
     
     func pluginState(_ pluginState: AutoreleasingUnsafeMutablePointer<NSData>?, at renderTime: CMTime, quality qualityLevel: UInt) throws {
-        let paramAPI = _apiManager!.api(for: FxParameterRetrievalAPI_v6.self) as! FxParameterRetrievalAPI_v6
-        
-        var brightness = 1.0
-        paramAPI.getFloatValue(&brightness, fromParameter: 1, at: renderTime)
-        
-        pluginState?.pointee = NSData.init(bytes: &brightness, length: MemoryLayout.size(ofValue: brightness))
+        let hsv = HueSaturation.fromAPI(self._apiManager, forParameter: 1, at: renderTime)
+        let newState = NSMutableData()
+        var hue = hsv.hue
+        var sat = hsv.saturation
+        newState.append(&hue, length: MemoryLayout.size(ofValue: hue))
+        newState.append(&sat, length: MemoryLayout.size(ofValue: sat))
+        print("Plugin state out", hue, sat)
+        pluginState?.pointee = newState
     }
     
     func destinationImageRect(_ destinationImageRect: UnsafeMutablePointer<FxRect>, sourceImages: [FxImageTile], destinationImage: FxImageTile, pluginState: Data?, at renderTime: CMTime) throws {
@@ -82,31 +86,43 @@ enum ParameterID: UInt32 {
     }
     
     func renderDestinationImage(_ destinationImage: FxImageTile, sourceImages: [FxImageTile], pluginState: Data?, at renderTime: CMTime) throws {
-        // Get the brightness from our plug-in state as a Double
-        let brightness = pluginState?.withUnsafeBytes{ (ptr: UnsafeRawBufferPointer) in
-            return ptr.bindMemory(to: Double.self).baseAddress?.pointee
-        }
-        
+        let deviceRegistryID = destinationImage.deviceRegistryID
         let deviceCache = MetalDeviceCache.deviceCache
         let pixelFormat = MetalDeviceCache.FxMTLPixelFormat(for: destinationImage)
-        let commandQueue = deviceCache.commandQueue(with: sourceImages[0].deviceRegistryID, pixelFormat: pixelFormat)!
+        guard let commandQueue = deviceCache.commandQueue(with: deviceRegistryID, pixelFormat: pixelFormat) else {
+            throw NSError(domain: FxPlugErrorDomain, code: NoCommandQueueError, userInfo: [NSLocalizedDescriptionKey: "Unable to get command queue in render. May need to increase cache size"])
+        }
 
+        // The documentation indicates that this function always returns a value and will block the thread until it has a command buffer
         let commandBuffer = commandQueue.makeCommandBuffer()!
         commandBuffer.label = "ColorCorrector Command Buffer"
         commandBuffer.enqueue()
         
-        let inputTexture = sourceImages[0].metalTexture(for: deviceCache.device(with: sourceImages[0].deviceRegistryID))
+        let inputTexture = destinationImage.metalTexture(for: deviceCache.device(with: sourceImages[0].deviceRegistryID))
         let outputTexture = destinationImage.metalTexture(for: deviceCache.device(with: destinationImage.deviceRegistryID))
         
         let colorAttachmentDescriptor = MTLRenderPassColorAttachmentDescriptor.init()
         colorAttachmentDescriptor.texture = outputTexture
-        colorAttachmentDescriptor.clearColor = MTLClearColorMake(1.0, 0.5, 0.0, 1.0)
+        colorAttachmentDescriptor.clearColor = MTLClearColorMake(0.5, 0.0, 1.0, 1.0)
         colorAttachmentDescriptor.loadAction = MTLLoadAction.clear
+        
         let renderPassDescriptor = MTLRenderPassDescriptor.init()
-        renderPassDescriptor.colorAttachments [ 0 ] = colorAttachmentDescriptor
+        renderPassDescriptor.colorAttachments[0] = colorAttachmentDescriptor
+        
+        // The documentation indicates this only fails if called twice before ending encoding
         let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
         
+        let pipelineState = deviceCache.pipelineState(with: deviceRegistryID, pixelFormat: pixelFormat)
+        commandEncoder.setRenderPipelineState(pipelineState!)
+        
         // Do rendering
+        let hsv = HueSaturation.fromPluginState(pluginState!)
+        
+        var red: Double = 0
+        var green: Double = 0
+        var blue: Double = 0
+        HSVToRGB(hue: hsv.hue, saturation: hsv.saturation, value: 1.0, red: &red, green: &green, blue: &blue)
+        
         let outputWidth = destinationImage.tilePixelBounds.right - destinationImage.tilePixelBounds.left
         let outputHeight = destinationImage.tilePixelBounds.top - destinationImage.tilePixelBounds.bottom
         var vertices = [
@@ -116,21 +132,24 @@ enum ParameterID: UInt32 {
             Vertex2D(position: vector_float2(Float(-outputWidth) / 2.0, Float(outputHeight) / 2.0), textureCoordinate: vector_float2(0.0, 0.0))
         ]
         
-        let viewport = MTLViewport(originX: 0, originY: 0, width: Double(outputWidth), height: Double(outputHeight), znear: -1.0, zfar: 1.0)
+        let ioSurfaceHeight = destinationImage.ioSurface.height
+        let viewport = MTLViewport(originX: 0,
+                                   originY: Double(ioSurfaceHeight - Int(outputHeight)),
+                                   width: Double(outputWidth),
+                                   height: Double(outputHeight),
+                                   znear: -1.0,
+                                   zfar: 1.0)
         commandEncoder.setViewport(viewport)
         
-        let pipelineState = deviceCache.pipelineState(with: sourceImages[0].deviceRegistryID, pixelFormat: pixelFormat)
-        commandEncoder.setRenderPipelineState(pipelineState!)
-        
-        commandEncoder.setVertexBytes(&vertices, length: MemoryLayout<Vertex2D>.size * 4, index: Int(BVI_Vertices.rawValue))
+        commandEncoder.setVertexBytes(&vertices, length: MemoryLayout<Vertex2D>.size * 4, index: Int(SCC_Vertices.rawValue))
         
         var viewportSize = simd_uint2(UInt32(outputWidth), UInt32(outputHeight))
-        commandEncoder.setVertexBytes(&viewportSize, length: MemoryLayout.size(ofValue: viewportSize), index: Int(BVI_ViewportSize.rawValue))
+        commandEncoder.setVertexBytes(&viewportSize, length: MemoryLayout.size(ofValue: viewportSize), index: Int(SCC_ViewportSize.rawValue))
         
-        commandEncoder.setFragmentTexture(inputTexture, index: Int(BTI_InputImage.rawValue))
+        commandEncoder.setFragmentTexture(inputTexture, index: Int(SCC_InputImage.rawValue))
         
-        var fragmentBrightness = Float(brightness!)
-        commandEncoder.setFragmentBytes(&fragmentBrightness, length: MemoryLayout.size(ofValue: fragmentBrightness), index: Int(BFI_Brightness.rawValue))
+        var color = vector_float4(Float(red), Float(green), Float(blue), 1)
+        commandEncoder.setFragmentBytes(&color, length: MemoryLayout.size(ofValue: color), index: Int(SCC_Color.rawValue))
         
         commandEncoder.drawPrimitives(type: MTLPrimitiveType.triangleStrip, vertexStart: 0, vertexCount: 4)
         

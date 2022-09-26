@@ -44,7 +44,7 @@ class MetalDeviceCacheItem: NSObject {
         let fragmentFunction = defaultLibrary?.makeFunction(name: "fragmentShader")
         pipelineStateDescriptor.vertexFunction = vertexFunction
         pipelineStateDescriptor.fragmentFunction = fragmentFunction
-        pipelineStateDescriptor.colorAttachments [ 0 ].pixelFormat = pixFormat
+        pipelineStateDescriptor.colorAttachments [0].pixelFormat = pixFormat
         pixelFormat = pixFormat
 
         try pipelineState = gpuDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)

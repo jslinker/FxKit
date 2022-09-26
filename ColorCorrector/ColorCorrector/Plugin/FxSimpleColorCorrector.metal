@@ -1,16 +1,16 @@
 //
-//  TileableRemoteBrightness.metal
-//  ColorCorrector
+//  FxShape.metal
+//  PlugIn
 //
-//  Created by Joseph Slinker on 4/27/22.
+//  Created by Apple on 10/4/18.
+//  Copyright © 2019-2021 Apple Inc. All rights reserved.
 //
 
 #include <metal_stdlib>
 #include <simd/simd.h>
-
 using namespace metal;
 
-#include "TileableRemoteBrightnessShaderTypes.h"
+#include "FxSimpleColorCorrectorShaderTypes.h"
 
 typedef struct
 {
@@ -27,8 +27,8 @@ typedef struct
 
 vertex RasterizerData
 vertexShader(uint vertexID [[vertex_id]],
-             constant Vertex2D *vertexArray [[buffer(BVI_Vertices)]],
-             constant vector_uint2 *viewportSizePointer [[buffer(BVI_ViewportSize)]])
+             constant Vertex2D *vertexArray [[buffer(SCC_Vertices)]],
+             constant vector_uint2 *viewportSizePointer [[buffer(SCC_ViewportSize)]])
 {
     RasterizerData out;
     
@@ -67,17 +67,18 @@ vertexShader(uint vertexID [[vertex_id]],
 
 // Fragment function
 fragment float4 fragmentShader(RasterizerData in [[stage_in]],
-                               texture2d<half> colorTexture [[ texture(BTI_InputImage) ]],
-                               constant float* brightness [[ buffer(BFI_Brightness) ]])
+                               texture2d<half> inputFrame [[ texture(SCC_InputImage) ]],
+                               constant vector_float4 *color [[ buffer(SCC_Color) ]])
 {
     constexpr sampler textureSampler (mag_filter::linear,
                                       min_filter::linear);
     
     // Sample the texture to obtain a color
-    half4 colorSample = colorTexture.sample(textureSampler, in.textureCoordinate);
-    const half hBrightness = static_cast<half>(*brightness);
-    colorSample.rgb = colorSample.rgb * hBrightness;
+    const half4     sample  = inputFrame.sample(textureSampler, in.textureCoordinate);
+    float4    result  = float4(sample) * *color;
     
     // We return the color of the texture
-    return float4(colorSample);
+    return result;
 }
+
+
