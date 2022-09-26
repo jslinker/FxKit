@@ -22,3 +22,46 @@ extension FxParameterFlags {
     static let UseFullViewWidth: FxParameterFlags = FxParameterFlags(kFxParameterFlag_USE_FULL_VIEW_WIDTH)
 
 }
+
+extension PROAPIAccessing {
+    
+    func parameterActionAPIV4() -> FxCustomParameterActionAPI_v4? {
+        return self.api(for: FxCustomParameterActionAPI_v4.self) as? FxCustomParameterActionAPI_v4
+    }
+    
+    func parameterRetrievalAPIV6() -> FxParameterRetrievalAPI_v6? {
+        return self.api(for: FxParameterRetrievalAPI_v6.self) as? FxParameterRetrievalAPI_v6
+    }
+    
+    func commandAPIV2() -> FxCommandAPI_v2? {
+        return self.api(for: FxCommandAPI_v2.self) as? FxCommandAPI_v2
+    }
+    
+    func timingAPIV4() -> FxTimingAPI_v4? {
+        return self.api(for: FxTimingAPI_v4.self) as? FxTimingAPI_v4
+    }
+    
+}
+
+extension FxTimingAPI_v4 {
+    
+    func startTimeForEffect() -> CMTime {
+        var effectTime = CMTime.invalid
+        self.startTime(forEffect: &effectTime)
+        return effectTime
+    }
+    
+    func timelineTimeFrom(_ inputTime: CMTime) -> CMTime {
+        var timelineEffectTime = CMTime.invalid
+        self.timelineTime(&timelineEffectTime, fromInputTime: inputTime)
+        return timelineEffectTime
+    }
+    
+    func timelineStartTimeForEffect() -> CMTime {
+        return self.timelineTimeFrom(self.startTimeForEffect())
+    }
+}
+
+func dprint(_ items: Any..., separator: String = " ", terminator: String = "\n", file: String = #file, line: Int = #line, function: String = #function) {
+    print(items + ["\(file) \(line) \(function)"], separator: separator, terminator: terminator)
+}

@@ -68,11 +68,14 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
     
     func pluginState(_ pluginState: AutoreleasingUnsafeMutablePointer<NSData>?, at renderTime: CMTime, quality qualityLevel: UInt) throws {
         let hsv = HueSaturation.fromAPI(self._apiManager, forParameter: 1, at: renderTime)
+        var value: Double = 0.0
+        self._apiManager.parameterRetrievalAPIV6()?.getFloatValue(&value, fromParameter: ParameterID.Value.rawValue, at: renderTime)
         let newState = NSMutableData()
         var hue = hsv.hue
         var sat = hsv.saturation
         newState.append(&hue, length: MemoryLayout.size(ofValue: hue))
         newState.append(&sat, length: MemoryLayout.size(ofValue: sat))
+        newState.append(&value, length: MemoryLayout.size(ofValue: value))
         print("Plugin state out", hue, sat)
         pluginState?.pointee = newState
     }
@@ -117,11 +120,14 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
         
         // Do rendering
         let hsv = HueSaturation.fromPluginState(pluginState!)
+        var value: Double = 0.0
+        let valueRange: NSRange = NSMakeRange(MemoryLayout.size(ofValue: hsv.hue) + MemoryLayout.size(ofValue: hsv.saturation), MemoryLayout.size(ofValue: value))
+        (pluginState! as NSData).getBytes(&value, range: valueRange)
         
         var red: Double = 0
         var green: Double = 0
         var blue: Double = 0
-        HSVToRGB(hue: hsv.hue, saturation: hsv.saturation, value: 1.0, red: &red, green: &green, blue: &blue)
+        HSVToRGB(hue: hsv.hue, saturation: hsv.saturation, value: value, red: &red, green: &green, blue: &blue)
         
         let outputWidth = destinationImage.tilePixelBounds.right - destinationImage.tilePixelBounds.left
         let outputHeight = destinationImage.tilePixelBounds.top - destinationImage.tilePixelBounds.bottom
