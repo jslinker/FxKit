@@ -29,6 +29,10 @@ extension PROAPIAccessing {
         return self.api(for: FxCustomParameterActionAPI_v4.self) as? FxCustomParameterActionAPI_v4
     }
     
+    func parameterCreationAPIV5() -> FxParameterCreationAPI_v5? {
+        return self.api(for: FxParameterCreationAPI_v5.self) as? FxParameterCreationAPI_v5
+    }
+    
     func parameterRetrievalAPIV6() -> FxParameterRetrievalAPI_v6? {
         return self.api(for: FxParameterRetrievalAPI_v6.self) as? FxParameterRetrievalAPI_v6
     }

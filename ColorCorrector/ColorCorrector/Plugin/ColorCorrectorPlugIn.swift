@@ -21,10 +21,27 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
     
     private let _apiManager : PROAPIAccessing!
     
-    private var customView: NSView? = nil
+    private let plugin: FXKPlugIn
     
     required init?(apiManager: PROAPIAccessing) {
         _apiManager = apiManager
+        let properties = FXKPlugInProperties(variesWhenParamsAreStatic: false, changesOutputSize: false)
+        let hueSatName = Bundle(for: Self.self).localizedString(forKey: "ColorCorrector::HueSaturation", value: nil, table: nil)
+        let defaultColor = HueSaturation(hue: 30.0 * Double.pi / 180, saturation: 0.5)
+        
+        let parameters: [FXKPlugInParameter] = [
+            FXKCustomParameter(name: hueSatName, id: ParameterID.HueSaturation.rawValue,
+                               flags: .CustomUI | .DontDisplayInDashboard,
+                               defaultValue: defaultColor),
+            FXKFloatSliderParameter(name: "Color Value", id: ParameterID.Value.rawValue,
+                                    flags: .Default, defaultValue: 1.0,
+                                    parameterRange: FXKParameterRange(min: 0.0, max: 100.0),
+                                    sliderRange: FXKParameterRange(min: 0.0, max: 5.0),
+                                    delta: 0.1),
+            FXKPushButtonParameter(name: "Show Window", id: ParameterID.WindowButton.rawValue,
+                                   flags: .Default, selector: #selector(showWindow))
+        ]
+        self.plugin = FXKPlugIn(apiManager: apiManager, properties: properties, parameters: parameters)
     }
     
     deinit {
@@ -40,33 +57,17 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
     
     // Describes what the plugin is capable of. This value is cached in Motion and Final Cut Pro.
     func properties(_ properties: AutoreleasingUnsafeMutablePointer<NSDictionary>?) throws {
-        let swiftProps = [
-            kFxPropertyKey_MayRemapTime: NSNumber(booleanLiteral: false),
-            kFxPropertyKey_PixelTransformSupport: NSNumber(integerLiteral: kFxPixelTransform_Full),
-            kFxPropertyKey_ChangesOutputSize: NSNumber(booleanLiteral: false)
-        ]
-        
-        let props = NSDictionary(dictionary: swiftProps)
-        properties?.pointee = props
+        properties?.pointee = self.plugin.properties.toDictionary()
     }
     
     func addParameters() throws {
-        let paramAPI = _apiManager!.api(for: FxParameterCreationAPI_v5.self) as! FxParameterCreationAPI_v5
-        
-        let bundle = Bundle(for: Self.self)
-        let hueSatName = bundle.localizedString(forKey: "ColorCorrector::HueSaturation", value: nil, table: nil)
-        let defaultColor = HueSaturation(hue: 30.0 * Double.pi / 180, saturation: 0.5)
-        
-        paramAPI.addCustomParameter(withName: hueSatName, parameterID: ParameterID.HueSaturation.rawValue,
-                                    defaultValue: defaultColor,
-                                    parameterFlags: .CustomUI | .DontDisplayInDashboard)
-        
-        paramAPI.addFloatSlider(withName: "Color Value", parameterID: ParameterID.Value.rawValue, defaultValue: 1.0, parameterMin: 0.0, parameterMax: 100.0, sliderMin: 0.0, sliderMax: 5.0, delta: 0.1, parameterFlags: .Default)
-        
-        paramAPI.addPushButton(withName: "Show Window", parameterID: ParameterID.WindowButton.rawValue, selector: #selector(showWindow), parameterFlags: .Default)
+        let paramAPI = _apiManager.parameterCreationAPIV5()!
+        for parameter in self.plugin.parameters {
+            parameter.addTo(apiManager: paramAPI)
+        }
     }
     
-    func pluginState(_ pluginState: AutoreleasingUnsafeMutablePointer<NSData>?, at renderTime: CMTime, quality qualityLevel: UInt) throws {
+    func pluginState(_ pluginState: AutoreleasingUnsafeMutablePointer<NSData>?, at renderTime: CMTime, quality qualityLevel: FxQuality) throws {
         let hsv = HueSaturation.fromAPI(self._apiManager, forParameter: 1, at: renderTime)
         var value: Double = 0.0
         self._apiManager.parameterRetrievalAPIV6()?.getFloatValue(&value, fromParameter: ParameterID.Value.rawValue, at: renderTime)
