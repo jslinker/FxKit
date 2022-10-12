@@ -63,6 +63,23 @@ class FXKAngleSliderParameter: FXKPlugInParameter {
 //Required.
 class FXKColorParameter: FXKPlugInParameter {
     
+    var red: Double
+    var green: Double
+    var blue: Double
+    var alpha: Double
+    
+    internal init(name: String, id: UInt32, flags: FxParameterFlags, red: Double, green: Double, blue: Double, alpha: Double) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addColorParameter(withName: self.name, parameterID: self.id, defaultRed: self.red, defaultGreen: self.green, defaultBlue: self.blue, defaultAlpha: self.alpha, parameterFlags: self.flags)
+    }
+    
 }
 
 //func addCustomParameter(withName: String, parameterID: UInt32, defaultValue: NSCopying & NSSecureCoding & NSObjectProtocol, parameterFlags: FxParameterFlags) -> Bool
@@ -117,6 +134,12 @@ class FXKFloatSliderParameter: FXKSliderParameter<Double> {
         apiManager.addFloatSlider(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterMin: self.parameterMin, parameterMax: self.parameterMax, sliderMin: self.sliderMin, sliderMax: self.sliderMax, delta: self.delta, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var value: Double = 0.0
+        apiManager.getFloatValue(&value, fromParameter: self.id, at: time)
+        return NSData(bytes: &value, length: MemoryLayout.size(ofValue: Double.self))
+    }
+    
 }
 
 //func addFontMenu(withName: String, parameterID: UInt32, fontName: String, parameterFlags: FxParameterFlags) -> Bool
@@ -124,12 +147,28 @@ class FXKFloatSliderParameter: FXKSliderParameter<Double> {
 //Required.
 class FXKFontMenuParameter: FXKPlugInParameter {
     
+    var fontName: String
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, fontName: String) {
+        self.fontName = fontName
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addFontMenu(withName: self.name, parameterID: self.id, fontName: self.fontName, parameterFlags: self.flags)
+    }
+    
 }
 
 //func addGradient(withName: String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
 //Creates a gradient parameter.
 //Required.
+// TODO: Figure out how to read the gradient parameter from the API
 class FXKGradientParameter: FXKPlugInParameter {
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addGradient(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
+    }
     
 }
 
@@ -138,19 +177,40 @@ class FXKGradientParameter: FXKPlugInParameter {
 //Required.
 class FXKHelpButtonParameter: FXKPlugInParameter {
     
+    var selector: Selector
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, selector: Selector) {
+        self.selector = selector
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addHelpButton(withName: self.name, parameterID: self.id, selector: self.selector, parameterFlags: self.flags)
+    }
+    
 }
 
 //func addHistogram(withName: String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
 //Creates a histogram parameter.
 //Required.
+// TODO: Figure out how to read and write histogram data
 class FXKHistogramParameter: FXKPlugInParameter {
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addHistogram(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
+    }
     
 }
 
 //func addImageReference(withName: String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
 //Creates an image reference parameter and adds it to the plug-in's parameter list.
 //Required.
+// TODO: Figure out how to read and write image references
 class FXKImageReferenceParameter: FXKPlugInParameter {
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addImageReference(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
+    }
     
 }
 
@@ -168,7 +228,12 @@ class FXKIntSliderParameter: FXKSliderParameter<Int32> {
 //func addPathPicker(withName: String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
 //Creates a parameter for choosing an image mask path.
 //Required.
+// TODO: Figure out how to read and write path masks
 class FXKPathPickerParameter: FXKPlugInParameter {
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addPathPicker(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
+    }
     
 }
 
@@ -188,12 +253,40 @@ class FXKPercentSliderParameter: FXKSliderParameter<Double> {
 //Required.
 class FXKPointParameter: FXKPlugInParameter {
     
+    var x: Double
+    var y: Double
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, x: Double, y: Double) {
+        self.x = x
+        self.y = y
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addPointParameter(withName: self.name, parameterID: self.id, defaultX: self.x, defaultY: self.y, parameterFlags: self.flags)
+    }
+    
 }
 
 //func addPopupMenu(withName: String, parameterID: UInt32, defaultValue: UInt32, menuEntries: [Any], parameterFlags: FxParameterFlags) -> Bool
 //Creates a popup menu parameter and adds it to the plug-in's parameter list.
 //Required.
+// TODO: Figure out how to read and write menu selections
 class FXKPopupMenuParameter: FXKPlugInParameter {
+    
+    var defaultSelection: UInt32
+    // TODO: Change from Any to whatever type actually works
+    var menuEntries: [Any]
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, defaultSelection: UInt32, menuEntries: [Any]) {
+        self.defaultSelection = defaultSelection
+        self.menuEntries = menuEntries
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addPopupMenu(withName: self.name, parameterID: self.id, defaultValue: self.defaultSelection, menuEntries: self.menuEntries, parameterFlags: self.flags)
+    }
     
 }
 
@@ -219,12 +312,27 @@ class FXKPushButtonParameter: FXKPlugInParameter {
         apiManager.addPushButton(withName: self.name, parameterID: self.id, selector: self.selector, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        return nil
+    }
+    
 }
 
 //func addStringParameter(withName: String, parameterID: UInt32, defaultValue: String, parameterFlags: FxParameterFlags) -> Bool
 //Creates a string parameter and adds it to the plug-in's parameter list.
 //Required.
 class FXKStringParameter: FXKPlugInParameter {
+    
+    var defaultValue: String
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, defaultValue: String) {
+        self.defaultValue = defaultValue
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addStringParameter(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterFlags: self.flags)
+    }
     
 }
 
@@ -233,6 +341,17 @@ class FXKStringParameter: FXKPlugInParameter {
 //Required.
 class FXKToggleButtonParameter: FXKPlugInParameter {
     
+    var defaultValue: Bool
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, defaultValue: Bool) {
+        self.defaultValue = defaultValue
+        super.init(name: name, id: id, flags: flags)
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.addToggleButton(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterFlags: self.flags)
+    }
+    
 }
 
 //func startParameterSubGroup(String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
@@ -240,11 +359,27 @@ class FXKToggleButtonParameter: FXKPlugInParameter {
 //Required.
 class FXKStartParameterSubGroupParameter: FXKPlugInParameter {
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        return nil
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.startParameterSubGroup(self.name, parameterID: self.id, parameterFlags: self.flags)
+    }
+    
 }
 
 //func endParameterSubGroup() -> Bool
 //Closes current parameter subgroup. You should always pair this with a preceding startParameterSubGroup(_:parameterID:parameterFlags:) message.
 //Required.
 class FXKEndParameterSubGroupParameter: FXKPlugInParameter {
+    
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        return nil
+    }
+    
+    override func addTo(apiManager: FxParameterCreationAPI_v5) {
+        apiManager.endParameterSubGroup()
+    }
     
 }

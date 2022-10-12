@@ -39,7 +39,20 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
                                     sliderRange: FXKParameterRange(min: 0.0, max: 5.0),
                                     delta: 0.1),
             FXKPushButtonParameter(name: "Show Window", id: ParameterID.WindowButton.rawValue,
-                                   flags: .Default, selector: #selector(showWindow))
+                                   flags: .Default, selector: #selector(showWindow)),
+            FXKColorParameter(name: "Color example", id: 1000, flags: .Default, red: 1, green: 1, blue: 1, alpha: 1),
+            FXKFontMenuParameter(name: "Font example", id: 1001, flags: .Default, fontName: "Helvetica"),
+            FXKGradientParameter(name: "Gradient example", id: 1002, flags: .Default),
+            FXKHelpButtonParameter(name: "Help Button example", id: 1003, flags: .Default, selector: #selector(showWindow)),
+            FXKHistogramParameter(name: "Histogram example", id: 1004, flags: .Default),
+            FXKImageReferenceParameter(name: "Image Reference example", id: 1005, flags: .Default),
+            FXKPathPickerParameter(name: "Path Picker example", id: 1006, flags: .Default),
+            FXKPointParameter(name: "Point example", id: 1007, flags: .Default, x: 0, y: 0),
+            FXKPopupMenuParameter(name: "Popup Menu example", id: 1008, flags: .Default, defaultSelection: 0, menuEntries: ["Option 0", "Option 1"]),
+            FXKStringParameter(name: "String example", id: 1009, flags: .Default, defaultValue: "Default text"),
+            FXKToggleButtonParameter(name: "Toggle example", id: 1010, flags: .Default, defaultValue: true),
+            FXKStartParameterSubGroupParameter(name: "Subgroup example", id: 1011, flags: .Default),
+            FXKEndParameterSubGroupParameter(name: "Not Used", id: 1012, flags: .Default)
         ]
         self.plugin = FXKPlugIn(apiManager: apiManager, properties: properties, parameters: parameters)
     }
