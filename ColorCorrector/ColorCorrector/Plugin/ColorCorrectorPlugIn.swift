@@ -116,6 +116,7 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
         let pipelineState = deviceCache.pipelineState(with: deviceRegistryID, pixelFormat: pixelFormat)
         commandEncoder.setRenderPipelineState(pipelineState!)
         
+        // TODO: Make reading back from plugin state easier
         // Do rendering
         let hsv = HueSaturation.fromPluginState(pluginState!)
         var value: Double = 1.0
