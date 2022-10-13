@@ -40,19 +40,6 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
                                     delta: 0.1),
             FXKPushButtonParameter(name: "Show Window", id: ParameterID.WindowButton.rawValue,
                                    flags: .Default, selector: #selector(showWindow)),
-            FXKColorParameter(name: "Color example", id: 1000, flags: .Default, red: 1, green: 1, blue: 1, alpha: 1),
-            FXKFontMenuParameter(name: "Font example", id: 1001, flags: .Default, fontName: "Helvetica"),
-            FXKGradientParameter(name: "Gradient example", id: 1002, flags: .Default),
-            FXKHelpButtonParameter(name: "Help Button example", id: 1003, flags: .Default, selector: #selector(showWindow)),
-            FXKHistogramParameter(name: "Histogram example", id: 1004, flags: .Default),
-            FXKImageReferenceParameter(name: "Image Reference example", id: 1005, flags: .Default),
-            FXKPathPickerParameter(name: "Path Picker example", id: 1006, flags: .Default),
-            FXKPointParameter(name: "Point example", id: 1007, flags: .Default, x: 0, y: 0),
-            FXKPopupMenuParameter(name: "Popup Menu example", id: 1008, flags: .Default, defaultSelection: 0, menuEntries: ["Option 0", "Option 1"]),
-            FXKStringParameter(name: "String example", id: 1009, flags: .Default, defaultValue: "Default text"),
-            FXKToggleButtonParameter(name: "Toggle example", id: 1010, flags: .Default, defaultValue: true),
-            FXKStartParameterSubGroupParameter(name: "Subgroup example", id: 1011, flags: .Default),
-            FXKEndParameterSubGroupParameter(name: "Not Used", id: 1012, flags: .Default)
         ]
         self.plugin = FXKPlugIn(apiManager: apiManager, properties: properties, parameters: parameters)
     }
@@ -81,16 +68,13 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
     }
     
     func pluginState(_ pluginState: AutoreleasingUnsafeMutablePointer<NSData>?, at renderTime: CMTime, quality qualityLevel: FxQuality) throws {
-        let hsv = HueSaturation.fromAPI(self._apiManager, forParameter: 1, at: renderTime)
-        var value: Double = 0.0
-        self._apiManager.parameterRetrievalAPIV6()?.getFloatValue(&value, fromParameter: ParameterID.Value.rawValue, at: renderTime)
+        let apiManager = self._apiManager.parameterRetrievalAPIV6()!
         let newState = NSMutableData()
-        var hue = hsv.hue
-        var sat = hsv.saturation
-        newState.append(&hue, length: MemoryLayout.size(ofValue: hue))
-        newState.append(&sat, length: MemoryLayout.size(ofValue: sat))
-        newState.append(&value, length: MemoryLayout.size(ofValue: value))
-        print("Plugin state out", hue, sat)
+        for parameter in self.plugin.parameters {
+            if let data = parameter.toDataFrom(apiManager: apiManager, at: renderTime) {
+                newState.append(Data(referencing: data))
+            }
+        }
         pluginState?.pointee = newState
     }
     
@@ -134,7 +118,7 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
         
         // Do rendering
         let hsv = HueSaturation.fromPluginState(pluginState!)
-        var value: Double = 0.0
+        var value: Double = 1.0
         let valueRange: NSRange = NSMakeRange(MemoryLayout.size(ofValue: hsv.hue) + MemoryLayout.size(ofValue: hsv.saturation), MemoryLayout.size(ofValue: value))
         (pluginState! as NSData).getBytes(&value, range: valueRange)
         
@@ -183,14 +167,14 @@ let NoCommandQueueError: FxError = kFxError_ThirdPartyDeveloperStart + 1000
     
     @objc func showWindow() {
         guard let windowAPI = _apiManager.api(for: FxRemoteWindowAPI_v2.self) as? FxRemoteWindowAPI_v2 else {
-            print("Unable to get windowing API")
+            dprint("Unable to get windowing API")
             return
         }
         
         let contentSize = ColorCorrectorView.hueSaturationWheel.size
         windowAPI.remoteWindow(of: contentSize) { view, error in
             guard let parentView = view else {
-                print("Error creating new remote window \(String(describing: error))")
+                dprint("Error creating new remote window \(String(describing: error))")
                 return
             }
             let wheelView = ColorCorrectorView(frame: NSRect(x: 0, y: 0, width: 200, height: 200), apiManager: self._apiManager)

@@ -124,7 +124,7 @@ class ColorCorrectorView: NSView, MTKViewDelegate {
         
         let currentTime = actionAPI.currentTime()
 
-        HueSaturation.setFromAPI(self.apiManager, withID: ParameterID.HueSaturation.rawValue, hueRadians: hueRadians, saturation: distance, at: currentTime)
+        HueSaturation.setFromAPI(self.apiManager, withID: ParameterID.HueSaturation.rawValue, hueSaturation: HueSaturation(hue: hueRadians, saturation: distance), at: currentTime)
 
         actionAPI.endAction(self)
 

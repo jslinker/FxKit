@@ -30,6 +30,11 @@ class FXKPlugInParameter {
         assertionFailure("\(#function) should be implemented by subclasses. Are you using the correct class for your parameter type?")
     }
     
+    func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        assertionFailure("\(#function) should be implemented by subclasses. Are you using the correct class for your parameter type?")
+        return nil
+    }
+    
 }
 
 //func addAngleSlider(withName: String, parameterID: UInt32, defaultDegrees: Double, parameterMinDegrees: Double, parameterMaxDegrees: Double, parameterFlags: FxParameterFlags) -> Bool
@@ -50,6 +55,14 @@ class FXKAngleSliderParameter: FXKPlugInParameter {
     
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addAngleSlider(withName: self.name, parameterID: self.id, defaultDegrees: self.defaultDegress, parameterMinDegrees: self.minDegrees, parameterMaxDegrees: self.maxDegrees, parameterFlags: self.flags)
+    }
+    
+    // Oddly, the API asks for default values in degrees, but then stores the data in Radians
+    // TODO: Make this parameter hide this implementation details from the API consumer
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var double: Double = 0.0
+        apiManager.getFloatValue(&double, fromParameter: self.id, at: time)
+        return NSData(bytes: &double, length: MemoryLayout.size(ofValue: double))
     }
     
 }
@@ -80,6 +93,20 @@ class FXKColorParameter: FXKPlugInParameter {
         apiManager.addColorParameter(withName: self.name, parameterID: self.id, defaultRed: self.red, defaultGreen: self.green, defaultBlue: self.blue, defaultAlpha: self.alpha, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var red: Double = 0.0
+        var green: Double = 0.0
+        var blue: Double = 0.0
+        var alpha: Double = 0.0
+        apiManager.getRedValue(&red, greenValue: &green, blueValue: &blue, alphaValue: &alpha, fromParameter: self.id, at: time)
+        let data = NSMutableData()
+        data.append(&red, length: MemoryLayout.size(ofValue: red))
+        data.append(&green, length: MemoryLayout.size(ofValue: green))
+        data.append(&blue, length: MemoryLayout.size(ofValue: blue))
+        data.append(&alpha, length: MemoryLayout.size(ofValue: alpha))
+        return data
+    }
+    
 }
 
 //func addCustomParameter(withName: String, parameterID: UInt32, defaultValue: NSCopying & NSSecureCoding & NSObjectProtocol, parameterFlags: FxParameterFlags) -> Bool
@@ -96,6 +123,11 @@ class FXKCustomParameter: FXKPlugInParameter {
     
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addCustomParameter(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterFlags: self.flags)
+    }
+    
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        let hueSat = HueSaturation.fromParamAPI(apiManager, forParameter: self.id, at: time)
+        return hueSat.toData() as NSData
     }
     
 }
@@ -137,7 +169,7 @@ class FXKFloatSliderParameter: FXKSliderParameter<Double> {
     override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
         var value: Double = 0.0
         apiManager.getFloatValue(&value, fromParameter: self.id, at: time)
-        return NSData(bytes: &value, length: MemoryLayout.size(ofValue: Double.self))
+        return NSData(bytes: &value, length: MemoryLayout.size(ofValue: value))
     }
     
 }
@@ -158,6 +190,12 @@ class FXKFontMenuParameter: FXKPlugInParameter {
         apiManager.addFontMenu(withName: self.name, parameterID: self.id, fontName: self.fontName, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var string: NSString = ""
+        apiManager.getStringParameterValue(&string, fromParameter: self.id)
+        return string.data(using: String.Encoding.utf32.rawValue)! as NSData
+    }
+    
 }
 
 //func addGradient(withName: String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
@@ -169,6 +207,14 @@ class FXKGradientParameter: FXKPlugInParameter {
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addGradient(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
     }
+    
+    /* https://developer.apple.com/documentation/professional_video_applications/fxparameterretrievalapi_v6/3378591-getgradientsamples
+     */
+//    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+//        var value: Double = 0.0
+//        apiManager.getGradientSamples(<#T##samples: UnsafeMutableRawPointer##UnsafeMutableRawPointer#>, numSamples: <#T##UInt#>, depth: <#T##UInt#>, fromParameter: <#T##UInt32#>, at: <#T##CMTime#>)
+//        return NSData(bytes: &value, length: MemoryLayout.size(ofValue: value))
+//    }
     
 }
 
@@ -188,6 +234,10 @@ class FXKHelpButtonParameter: FXKPlugInParameter {
         apiManager.addHelpButton(withName: self.name, parameterID: self.id, selector: self.selector, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        return nil
+    }
+    
 }
 
 //func addHistogram(withName: String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
@@ -196,8 +246,37 @@ class FXKHelpButtonParameter: FXKPlugInParameter {
 // TODO: Figure out how to read and write histogram data
 class FXKHistogramParameter: FXKPlugInParameter {
     
+    enum Channel: UInt {
+        case RGB = 0
+        case Red, Green, Blue, Alpha
+    }
+    
+    var channel: Channel
+    
+    init(name: String, id: UInt32, flags: FxParameterFlags, channel: Channel) {
+        self.channel = channel
+        super.init(name: name, id: id, flags: flags)
+    }
+    
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addHistogram(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
+    }
+    
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var blackIn: Double = 0.0
+        var blackOut: Double = 0.0
+        var whiteIn: Double = 0.0
+        var whiteOut: Double = 0.0
+        var gamma: Double = 0.0
+        apiManager.getHistogramBlack(in: &blackIn, blackOut: &blackOut, whiteIn: &whiteIn, whiteOut: &whiteOut, gamma: &gamma, forChannel: self.channel.rawValue, fromParameter: self.id, at: time)
+        
+        let data = NSMutableData()
+        data.append(&blackIn, length: MemoryLayout.size(ofValue: blackIn))
+        data.append(&blackOut, length: MemoryLayout.size(ofValue: blackOut))
+        data.append(&whiteIn, length: MemoryLayout.size(ofValue: whiteIn))
+        data.append(&whiteOut, length: MemoryLayout.size(ofValue: whiteOut))
+        data.append(&gamma, length: MemoryLayout.size(ofValue: gamma))
+        return data
     }
     
 }
@@ -212,6 +291,12 @@ class FXKImageReferenceParameter: FXKPlugInParameter {
         apiManager.addImageReference(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var string: NSString = ""
+        apiManager.getStringParameterValue(&string, fromParameter: self.id)
+        return string.data(using: String.Encoding.utf32.rawValue)! as NSData
+    }
+    
 }
 
 //func addIntSlider(withName: String, parameterID: UInt32, defaultValue: Int32, parameterMin: Int32, parameterMax: Int32, sliderMin: Int32, sliderMax: Int32, delta: Int32, parameterFlags: FxParameterFlags) -> Bool
@@ -221,6 +306,12 @@ class FXKIntSliderParameter: FXKSliderParameter<Int32> {
     
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addIntSlider(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterMin: self.parameterMin, parameterMax: self.parameterMax, sliderMin: self.sliderMin, sliderMax: self.sliderMax, delta: self.delta, parameterFlags: self.flags)
+    }
+    
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var value: Int32 = 0
+        apiManager.getIntValue(&value, fromParameter: self.id, at: time)
+        return NSData(bytes: &value, length: MemoryLayout.size(ofValue: value))
     }
     
 }
@@ -235,6 +326,12 @@ class FXKPathPickerParameter: FXKPlugInParameter {
         apiManager.addPathPicker(withName: self.name, parameterID: self.id, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var string: NSString = ""
+        apiManager.getStringParameterValue(&string, fromParameter: self.id)
+        return string.data(using: String.Encoding.utf32.rawValue)! as NSData
+    }
+    
 }
 
 //func addPercentSlider(withName: String, parameterID: UInt32, defaultValue: Double, parameterMin: Double, parameterMax: Double, sliderMin: Double, sliderMax: Double, delta: Double, parameterFlags: FxParameterFlags) -> Bool
@@ -244,6 +341,12 @@ class FXKPercentSliderParameter: FXKSliderParameter<Double> {
     
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addPercentSlider(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterMin: self.parameterMin, parameterMax: self.parameterMax, sliderMin: self.sliderMin, sliderMax: self.sliderMax, delta: self.delta, parameterFlags: self.flags)
+    }
+    
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var value: Double = 0.0
+        apiManager.getFloatValue(&value, fromParameter: self.id, at: time)
+        return NSData(bytes: &value, length: MemoryLayout.size(ofValue: value))
     }
     
 }
@@ -266,6 +369,17 @@ class FXKPointParameter: FXKPlugInParameter {
         apiManager.addPointParameter(withName: self.name, parameterID: self.id, defaultX: self.x, defaultY: self.y, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var x: Double = 0.0
+        var y: Double = 0.0
+        apiManager.getXValue(&x, yValue: &y, fromParameter: self.id, at: time)
+        
+        let data = NSMutableData()
+        data.append(&x, length: MemoryLayout.size(ofValue: x))
+        data.append(&y, length: MemoryLayout.size(ofValue: y))
+        return data
+    }
+    
 }
 
 //func addPopupMenu(withName: String, parameterID: UInt32, defaultValue: UInt32, menuEntries: [Any], parameterFlags: FxParameterFlags) -> Bool
@@ -286,6 +400,12 @@ class FXKPopupMenuParameter: FXKPlugInParameter {
     
     override func addTo(apiManager: FxParameterCreationAPI_v5) {
         apiManager.addPopupMenu(withName: self.name, parameterID: self.id, defaultValue: self.defaultSelection, menuEntries: self.menuEntries, parameterFlags: self.flags)
+    }
+    
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var string: NSString = ""
+        apiManager.getStringParameterValue(&string, fromParameter: self.id)
+        return string.data(using: String.Encoding.utf32.rawValue)! as NSData
     }
     
 }
@@ -334,6 +454,12 @@ class FXKStringParameter: FXKPlugInParameter {
         apiManager.addStringParameter(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var string: NSString = ""
+        apiManager.getStringParameterValue(&string, fromParameter: self.id)
+        return string.data(using: String.Encoding.utf32.rawValue)! as NSData
+    }
+    
 }
 
 //func addToggleButton(withName: String, parameterID: UInt32, defaultValue: Bool, parameterFlags: FxParameterFlags) -> Bool
@@ -352,6 +478,11 @@ class FXKToggleButtonParameter: FXKPlugInParameter {
         apiManager.addToggleButton(withName: self.name, parameterID: self.id, defaultValue: self.defaultValue, parameterFlags: self.flags)
     }
     
+    override func toDataFrom(apiManager: FxParameterRetrievalAPI_v6, at time: CMTime) -> NSData? {
+        var boolean: ObjCBool = false
+        apiManager.getBoolValue(&boolean, fromParameter: self.id, at: time)
+        return NSData(bytes: &boolean, length: MemoryLayout.size(ofValue: boolean))
+    }
 }
 
 //func startParameterSubGroup(String, parameterID: UInt32, parameterFlags: FxParameterFlags) -> Bool
