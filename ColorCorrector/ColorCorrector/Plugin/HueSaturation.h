@@ -16,10 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property double    hue;        // An angle in radians between 0 and 2Pi
 @property double    saturation; // A value between 0 and 1
 
++ (instancetype)fromParamAPI: (id<FxParameterRetrievalAPI_v6>)apiManager forParameter: (UInt32)parameter atTime: (CMTime)currentTime;
 + (instancetype)fromAPI: (id<PROAPIAccessing>)apiManager forParameter: (UInt32)parameter atTime: (CMTime)currentTime;
 + (void)setFromAPI: (id<PROAPIAccessing>)apiManager withID:(UInt32)parameterID hueRadians: (double)hueRadians saturation: (double)saturation atTime: (CMTime) currentTime;
++ (void)setFromAPI:(id<PROAPIAccessing>)apiManager withID:(UInt32)parameterID hueSaturation: (HueSaturation*)hueSaturation atTime:(CMTime)currentTime;
 + (instancetype)fromPluginState: (NSData*)data;
 - (instancetype)initWithHue:(double)hue saturation:(double)sat;
+- (NSData*)toData;
 
 @end
 

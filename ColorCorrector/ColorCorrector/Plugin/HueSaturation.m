@@ -40,6 +40,17 @@ static NSString*    kKey_Saturation = @"Saturation";
     return hueSat;
 }
 
++ (instancetype)fromParamAPI: (id<FxParameterRetrievalAPI_v6>)apiManager forParameter: (UInt32)parameter atTime: (CMTime)currentTime {
+    HueSaturation* hueSat  = nil;
+    [apiManager getCustomParameterValue:&hueSat fromParameter:parameter atTime:currentTime];
+    return hueSat;
+}
+
++ (void)setFromAPI:(id<PROAPIAccessing>)apiManager withID:(UInt32)parameterID hueSaturation: (HueSaturation*)hueSaturation atTime:(CMTime)currentTime {
+    id<FxParameterSettingAPI_v5> paramAPI = [apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
+    [paramAPI setCustomParameterValue:hueSaturation toParameter:parameterID atTime:currentTime];
+}
+
 + (void)setFromAPI: (id<PROAPIAccessing>)apiManager withID:(UInt32)parameterID hueRadians: (double)hueRadians saturation: (double)saturation atTime: (CMTime) currentTime {
     id<FxParameterSettingAPI_v5> paramAPI = [apiManager apiForProtocol:@protocol(FxParameterSettingAPI_v5)];
     HueSaturation* colorData = [[[HueSaturation alloc] initWithHue:hueRadians saturation:saturation]
@@ -112,6 +123,15 @@ static NSString*    kKey_Saturation = @"Saturation";
     }
     
     return NO;
+}
+
+- (NSData*)toData {
+    NSMutableData* data = [NSMutableData new];
+    double hue = self.hue;
+    double sat = self.saturation;
+    [data appendBytes:&hue length:sizeof(self.hue)];
+    [data appendBytes:&sat length:sizeof(self.saturation)];
+    return data;
 }
 
 @end
