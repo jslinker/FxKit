@@ -9,35 +9,80 @@ import Foundation
 
 // What are static vs dynamic properties?
 struct FXKPlugInProperties {
+    //---------------------------------------------------------
+    // Deprecated, and no longer required in FxPlug 4:
+    //
+    // * kFxPropertyKey_IsThreadSafe
+    // * kFxPropertyKey_MayRemapTime
+    // * kFxPropertyKey_PixelIndependent
+    // * kFxPropertyKey_PreservesAlpha
+    // * kFxPropertyKey_UsesLumaChroma
+    // * kFxPropertyKey_UsesNonmatchingTextureLayout
+    // * kFxPropertyKey_UsesRationalTime
+    //---------------------------------------------------------
     
-    // This appears in some documentation, but is deprecated
-//    var equivalentSMPTEWipeCode: Int
-//    var mayRemapTime: Bool
-    var pixelIndependent: Bool
-    var preservesAlpha: Bool
-    // This is deprecated in FXPlug 4 but isn't clearly indicated in documentation
-//    var isThreadSafe: Bool
+    //---------------------------------------------------------
+    // @const      kFxPropertyKey_NeedsFullBuffer
+    // @abstract   A key that determines whether the plug-in needs the entire image to do its
+    //             processing, and can't tile its rendering.
+    // @discussion This value of this key is a Boolean NSNumber indicating whether this plug-in
+    //             needs the entire image to do its processing. Note that setting this value to
+    //             YES incurs a significant performance penalty and makes your plug-in
+    //             unable to render large input images. The default value is NO.
+    //---------------------------------------------------------
     var needsFullBuffer: Bool
-    var variesWhenParamsAreStatic: Bool
-    var changesOutputSize: Bool
-    // This is used in the sample projects, and is filed under "deprecated" in the documentation, but is not explicitly marked as deprecated
-//    var transformSupprot: FxPixelTransformSupport
     
-    internal init(pixelIndependent: Bool = false, preservesAlpha: Bool = false, needsFullBuffer: Bool = false, variesWhenParamsAreStatic: Bool, changesOutputSize: Bool) {
-        self.pixelIndependent = pixelIndependent
-        self.preservesAlpha = preservesAlpha
+    //---------------------------------------------------------
+    // @const      kFxPropertyKey_VariesWhenParamsAreStatic
+    // @abstract   A key that determines whether your rendering varies even when
+    //             the parameters remain the same.
+    // @discussion The value for this key is a Boolean NSNumber indicating whether this effect
+    //             changes its rendering even when the parameters don't change. This can happen if
+    //             your rendering is based on timing in addition to parameters, for example. Note that
+    //             this property is only checked once when the filter is applied, so it
+    //             should go in static properties rather than dynamic properties.
+    //---------------------------------------------------------
+    var variesWhenParamsAreStatic: Bool
+        
+    //---------------------------------------------------------
+    // @const      kFxPropertyKey_ChangesOutputSize
+    // @abstract   A key that determines whether your filter has the ability to change the size
+    //             of its output to be different than the size of its input.
+    // @discussion The value of this key is a Boolean NSNumber indicating whether your filter
+    //             returns an output that has a different size than the input. If not, return "NO"
+    //             and your filter's @c -destinationImageRect:sourceImages:pluginState:atTime:error:
+    //             method will not be called.
+    //---------------------------------------------------------
+    var changesOutputSize: Bool
+    
+    //---------------------------------------------------------
+    // @const      kFxPropertyKey_DesiredProcessingColorInfo
+    // @abstract   Key for properties dictionary
+    // @discussion The value for this key is an NSNumber indicating the colorspace
+    //             that the plug-in would like to process in. This color space is
+    //             expressed as an FxImageColorInfo enum. If a plug-in specifies this,
+    //             and the host supports it, all inputs will be in this colorspace,
+    //             and the output must also be in this colorspace. This may not
+    //             be supported by all hosts, so the plug-in should still check
+    //             the colorInfo of its input and output images. Defaults to
+    //             kFxImageColorInfo_RGB_LINEAR. Can also be
+    //             kFxImageColorInfo_RGB_GAMMA_VIDEO.
+    //---------------------------------------------------------
+    var desiredProcessingColorInfo: Int
+        
+    internal init(needsFullBuffer: Bool = false, variesWhenParamsAreStatic: Bool, changesOutputSize: Bool, desiredProcessingColorInfo: Int = kFxImageColorInfo_RGB_LINEAR) {
         self.needsFullBuffer = needsFullBuffer
         self.variesWhenParamsAreStatic = variesWhenParamsAreStatic
         self.changesOutputSize = changesOutputSize
+        self.desiredProcessingColorInfo = desiredProcessingColorInfo
     }
     
     func toDictionary() -> NSDictionary {
         return [
-            kFxPropertyKey_PixelIndependent: NSNumber(value: self.pixelIndependent),
-            kFxPropertyKey_PreservesAlpha: NSNumber(value: self.preservesAlpha),
             kFxPropertyKey_NeedsFullBuffer: NSNumber(value: self.needsFullBuffer),
             kFxPropertyKey_VariesWhenParamsAreStatic: NSNumber(value: self.variesWhenParamsAreStatic),
             kFxPropertyKey_ChangesOutputSize: NSNumber(value: self.changesOutputSize),
+            kFxPropertyKey_DesiredProcessingColorInfo: NSNumber(value: self.desiredProcessingColorInfo)
         ]
     }
     
