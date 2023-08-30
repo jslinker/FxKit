@@ -1,8 +1,8 @@
 # FxKit
-A Swift implementation of FxCore plugins for Final Cut Pro and Apple Motion
+A Swift implementation of FxPlug plugins for Final Cut Pro and Apple Motion
 
 ## How to Use
-This project is constantly evolving to provide the *best* possible interface for writing plugins for Final Cut Pro and Apple Motion. The current goal is to reimplement all of Apple's demo plugins using modern technologies and patterns wherever possible. The goal eventual goal is to arrive at a simple, modern API layer that sits on top of FxPlug that enables everyone to focus on creating amazing plugins and ignore everything else. 
+This project is constantly evolving to provide the *best* possible interface for writing plugins for Final Cut Pro and Apple Motion. The current goal is to reimplement all of Apple's demo plugins using modern technologies and patterns wherever possible. The eventual goal is to arrive at a simple, modern API layer that sits on top of FxPlug that enables everyone to focus on creating amazing plugins and ignore everything else. 
 
 You can download this repository as is and run it using Xcode to have all of the finished plugins installed as Motion plugins. If you want to write your own plugins you can use this project as a template to start from.
 
